@@ -704,26 +704,6 @@ PROJECT_NAME=User Service Production
 API_V1_STR=/api/v1
 ENVIRONMENT=production
 ```
-
----
-
-## 🤝 Contribución
-
-### 📋 Cómo Contribuir
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit tus cambios (`git commit -m 'Agrega nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Abre un Pull Request
-
-### 🧪 Antes de Enviar PR
-
-- ✅ Ejecuta todas las pruebas (`./test.sh`)
-- ✅ Verifica que el código sigue las convenciones
-- ✅ Agrega pruebas para nueva funcionalidad
-- ✅ Actualiza la documentación si es necesario
-
 ---
 
 ## 🏧 Justificación de la Arquitectura
