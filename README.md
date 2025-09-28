@@ -373,7 +373,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 ### ⚙️ Variables de Entorno
 
-Crear archivo `.env` en la raíz del proyecto:
+Copiar el archivo .env.example en el directorio user_service, renombrar a .env y editar:
 
 ```env
 # Base de datos
@@ -426,7 +426,6 @@ start_service.bat
 
 # 2. Ejecutar pruebas (en otra terminal)
 ./run_tests.sh  # Linux/macOS
-run_tests.bat   # Windows
 ```
 
 #### ☁️ Pruebas de Producción
@@ -461,7 +460,7 @@ LOG_LEVEL=INFO
 ./test_production.sh
 
 # Windows
-test_production.bat
+start test_production.bat
 
 # Python directo
 python test_production.py
