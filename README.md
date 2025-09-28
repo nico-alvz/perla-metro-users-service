@@ -393,19 +393,83 @@ API_V1_STR=/api/v1
 
 El proyecto incluye una suite completa de pruebas que valida todos los endpoints y funcionalidades.
 
-### Ejecución de Pruebas
+### 🧪 Ejecución de Pruebas
 
-#### Con Docker Compose (Servicios en ejecución)
+#### 🏠 Pruebas Locales (Docker)
+
+Ejecuta las pruebas contra tu entorno local de desarrollo:
+
+##### Opción 1: Scripts Automatizados Nuevos 🆕
 
 ```bash
 # Linux/macOS
-./test.sh
+./test_local.sh
 
 # Windows
-test.bat
+test_local.bat
+
+# Python directo
+python test_local.py
+# o
+python3 test_local.py
 ```
 
-#### Con Python Virtual Environment
+##### Opción 2: Scripts de Servicio + Pruebas (Método Anterior)
+
+```bash
+# 1. Iniciar los servicios
+# Linux/macOS
+./start_service.sh
+
+# Windows
+start_service.bat
+
+# 2. Ejecutar pruebas (en otra terminal)
+./run_tests.sh  # Linux/macOS
+run_tests.bat   # Windows
+```
+
+#### ☁️ Pruebas de Producción
+
+##### Configuración Inicial
+
+1. **Copia el archivo de configuración**:
+
+```bash
+# Copia el archivo de ejemplo
+cp .env.test.example .env.test
+
+# Edita el archivo con tu URL de producción
+nano .env.test  # o tu editor preferido
+```
+
+2. **Configura tu servicio desplegado** en `.env.test`:
+
+```bash
+# .env.test
+PRODUCTION_API_URL=https://tu-servicio.onrender.com
+REQUEST_TIMEOUT=30
+LOG_LEVEL=INFO
+```
+
+> 📝 **Nota**: El archivo `.env.test` está en `.gitignore` para proteger tus URLs de producción.
+
+3. **Ejecuta las pruebas**:
+
+```bash
+# Linux/macOS
+./test_production.sh
+
+# Windows
+test_production.bat
+
+# Python directo
+python test_production.py
+# o
+python3 test_production.py
+```
+
+#### 🐍 Con Python Virtual Environment (Método Manual)
 
 ```bash
 # Crear y activar entorno virtual
@@ -415,33 +479,33 @@ source venv/bin/activate  # Linux/macOS
 venv\Scripts\activate  # Windows
 
 # Instalar dependencias de testing
-pip install -r requirements-test.txt
+pip install requests
 
-# Ejecutar pruebas
+# Ejecutar pruebas locales
+export API_BASE_URL="http://localhost:8000"  # Linux/macOS
+set API_BASE_URL=http://localhost:8000       # Windows
 python test_api.py
-```
 
-#### Para Servicios en la Nube
-
-Para probar servicios desplegados en la nube, modifica la URL base en `test_api.py`:
-
-```python
-# Cambiar la URL base por la de tu servicio desplegado
-BASE_URL = "https://your-service.cloud-provider.com"  # Ejemplo
-# BASE_URL = "http://localhost:8000"  # Local
+# Ejecutar pruebas de producción
+export API_BASE_URL="https://tu-servicio.onrender.com"  # Linux/macOS
+set API_BASE_URL=https://tu-servicio.onrender.com       # Windows
+python test_api.py
 ```
 
 ### 📊 Cobertura de Pruebas
 
-Las pruebas cubren:
+Los scripts de prueba verifican:
 
-- ✅ **Validaciones de entrada** (email institucional, contraseñas fuertes)
-- ✅ **Autenticación JWT** (login, validación de tokens)
-- ✅ **Autorización** (permisos por rol)
-- ✅ **CRUD de usuarios** (crear, leer, actualizar, eliminar)
-- ✅ **Auditoría** (registro y consulta de logs)
-- ✅ **Soft delete** (eliminación suave)
+- ✅ **Validaciones de entrada** (email institucional, contraseña fuerte)
+- ✅ **Autenticación JWT** (login exitoso/fallido)
+- ✅ **Autorización granular** (permisos por rol)
+- ✅ **CRUD completo** (crear, leer, actualizar, eliminar)
+- ✅ **Soft deletes** (eliminación lógica)
+- ✅ **Logs de auditoría** (trazabilidad completa)
+- ✅ **Restricciones de negocio** (solo admin puede eliminar)
+- ✅ **Información de sesión** (datos del token)
 - ✅ **Casos de error** (401, 403, 404, 422)
+- ✅ **Conectividad** (verificación de servicios activos)
 
 ### Flujo de Autenticación
 
@@ -606,13 +670,13 @@ curl -X GET "http://localhost:8000/api/v1/audit-logs/" \
 Una vez desplegado, el servicio estará disponible en:
 
 ```
-https://user-service.your-cloud-provider.com:8443
+https://taller1-g43w.onrender.com
 ```
 
 ### 📊 Documentación en la Nube
 
-- **Swagger UI**: https://user-service.your-cloud-provider.com:8443/docs
-- **ReDoc**: https://user-service.your-cloud-provider.com:8443/redoc
+- **Swagger UI**: https://taller1-g43w.onrender.com/docs
+- **ReDoc**: https://taller1-g43w.onrender.com/redoc
 
 ### 🧪 Pruebas contra Servicio Desplegado
 
@@ -620,7 +684,7 @@ Para ejecutar las pruebas contra el servicio en la nube:
 
 1. **Modificar la URL base** en `test_api.py`:
    ```python
-   BASE_URL = "https://user-service.your-cloud-provider.com:8443"
+   BASE_URL = "https://taller1-g43w.onrender.com"
    ```
 
 2. **Ejecutar pruebas**:
@@ -644,4 +708,118 @@ ENVIRONMENT=production
 
 ---
 
-</div>
+## 🤝 Contribución
+
+### 📋 Cómo Contribuir
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. Commit tus cambios (`git commit -m 'Agrega nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
+
+### 🧪 Antes de Enviar PR
+
+- ✅ Ejecuta todas las pruebas (`./test.sh`)
+- ✅ Verifica que el código sigue las convenciones
+- ✅ Agrega pruebas para nueva funcionalidad
+- ✅ Actualiza la documentación si es necesario
+
+---
+
+## 🏧 Justificación de la Arquitectura
+
+### 📋 Contexto del Problema
+
+El proyecto inicialmente se solicitaba como un **CRUD simple de usuarios**, pero durante el análisis de requerimientos se identificaron necesidades críticas de seguridad y trazabilidad:
+
+- **Eliminación de usuarios** requiere **autorización administrativa**
+- **Soft delete** necesario para preservar integridad referencial
+- **Logs de auditoría** obligatorios para trazabilidad de operaciones críticas
+
+### 🛡️ Decisiones Arquitecturales
+
+#### 1. **Sistema de Autenticación JWT** 🔐
+
+**¿Por qué se añadió login y autenticación?**
+
+- **Requisito implícito**: "Solo administradores pueden eliminar usuarios"
+- **Solución**: Sistema JWT con roles diferenciados (admin/usuario)
+- **Beneficio**: Autorización granular y escalable
+
+```python
+# Sin autenticación: CUALQUIERA puede eliminar usuarios 😱
+DELETE /api/v1/users/123  # ¡PELIGROSO!
+
+# Con autenticación: Solo admins autorizados 🔒
+DELETE /api/v1/users/123
+Authorization: Bearer <admin_jwt_token>
+```
+
+#### 2. **Soft Delete** 🗑️
+
+**¿Por qué eliminación lógica en lugar de física?**
+
+- **Integridad referencial**: Preservar relaciones con otras entidades
+- **Recuperación**: Posibilidad de restaurar usuarios eliminados accidentalmente
+- **Cumplimiento**: Conservar datos para auditorías regulatorias
+
+```sql
+-- Eliminación física: ¡DATOS PERDIDOS PARA SIEMPRE!
+DELETE FROM users WHERE id = '123';
+
+-- Soft delete: Datos preservados, solo marcados como inactivos
+UPDATE users SET deleted_at = NOW() WHERE id = '123';
+```
+
+#### 3. **Sistema de Auditoría** 📈
+
+**¿Por qué logs de auditoría detallados?**
+
+- **Trazabilidad**: ¿Quién eliminó qué usuario y cuándo?
+- **Responsabilidad**: Registro de acciones administrativas críticas
+- **Compliance**: Cumplimiento con estándares de seguridad empresarial
+
+```json
+// Cada acción crítica queda registrada
+{
+  "action": "delete_user",
+  "performed_by": "admin_user_id",
+  "entity_id": "deleted_user_id",
+  "details": {
+    "deleted_user_email": "usuario@perlametro.cl",
+    "soft_delete": true
+  },
+  "performed_at": "2025-09-28T20:30:00Z"
+}
+```
+
+### 🎯 Beneficios de la Arquitectura Implementada
+
+#### 🔒 **Seguridad Multicapa**
+- **Autenticación**: JWT con expiración configurable
+- **Autorización**: Roles granulares (admin/usuario)
+- **Validación**: Email institucional obligatorio
+- **Encriptación**: Contraseñas hasheadas con bcrypt
+
+#### 📈 **Escalabilidad y Mantenibilidad**
+- **Arquitectura en capas**: Separación clara de responsabilidades
+- **Patrones de diseño**: Repository, Factory, Strategy, Dependency Injection
+- **APIs RESTful**: Estándar de la industria con documentación OpenAPI
+- **Docker**: Despliegue consistente en cualquier entorno
+
+#### 📊 **Observabilidad y Monitoreo**
+- **Logs estructurados**: Auditoría completa de operaciones críticas
+- **Métricas de negocio**: Seguimiento de acciones administrativas
+- **Trazabilidad**: Registro detallado de quién hizo qué y cuándo
+
+### 🚀 **Comparación: CRUD Básico vs Solución Implementada**
+
+| Aspecto | CRUD Básico | Solución Implementada |
+|---------|---------------|-------------------------|
+| **Eliminación** | Cualquiera puede eliminar | Solo administradores autorizados |
+| **Datos** | Pérdida permanente | Soft delete con posible recuperación |
+| **Seguridad** | Sin autenticación | JWT + roles + validaciones |
+| **Auditoría** | Sin rastro de cambios | Logs detallados de todas las operaciones |
+| **Escalabilidad** | Limitada | Arquitectura empresarial preparada para crecer |
+| **Compliance** | No apto para producción | Cumple estándares de seguridad |
